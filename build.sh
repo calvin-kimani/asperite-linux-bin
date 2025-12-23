@@ -38,8 +38,8 @@ fi
 # --- update local repo to selected tag ---
 git -C "$ASEPRITE_DIR" clean -fdx
 git -C "$ASEPRITE_DIR" submodule foreach --recursive git clean -xfd
-git -C "$ASEPRITE_DIR" fetch --depth=1 origin "$ASEPRITE_VERSION"
-git -C "$ASEPRITE_DIR" reset --hard "origin/$ASEPRITE_VERSION"
+git -C "$ASEPRITE_DIR" fetch --depth=1 origin "refs/tags/$ASEPRITE_VERSION:refs/tags/$ASEPRITE_VERSION"
+git -C "$ASEPRITE_DIR" reset --hard "$ASEPRITE_VERSION"
 git -C "$ASEPRITE_DIR" submodule update --init --recursive
 
 # --- patch version in CMakeLists.txt ---
