@@ -1,0 +1,38 @@
+name: aseprite
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to build, leave empty for latest"
+        required: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git curl cmake ninja-build python3 unzip libjpeg-dev libfreetype6-dev libgif-dev
+
+      - name: Build
+        id: build
+        shell: bash
+        run: |
+          chmod +x build.sh
+          ./build.sh
+        env:
+          ASEPRITE_VERSION: ${{ github.event.inputs.version }}
+
+      - name: Archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: aseprite-${{ github.event.inputs.version }}
+          path: ~/aseprite-${{ github.event.inputs.version }}
+          if-no-files-found: error
