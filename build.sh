@@ -75,15 +75,7 @@ cmake -S "$ASEPRITE_DIR" -B "$BUILD_DIR" \
     -DCMAKE_BUILD_TYPE=Release \
     -DLAF_BACKEND=skia \
     -DSKIA_DIR="$SKIA_DIR" \
-    -DSKIA_OUT_DIR="$SKIA_OUT_DIR" \
-    -DSKSHAPER_LIBRARY="$SKIA_OUT_DIR/libskshaper.a" \
-    -DSKUNICODE_LIBRARY="$SKIA_OUT_DIR/libskunicode.a" \
-    -DJPEG_LIBRARY=/usr/lib/x86_64-linux-gnu/libjpeg.so \
-    -DJPEG_INCLUDE_DIR=/usr/include \
-    -DFREETYPE_LIBRARY=/usr/lib/x86_64-linux-gnu/libfreetype.so \
-    -DFREETYPE_INCLUDE_DIR=/usr/include/freetype2 \
-    -DGIFLIB_LIBRARY=/usr/lib/x86_64-linux-gnu/libgif.so \
-    -DGIFLIB_INCLUDE_DIR=/usr/include
+    -DSKIA_OUT_DIR="$SKIA_OUT_DIR"
 
 ninja -C "$BUILD_DIR"
 
