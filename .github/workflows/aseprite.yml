@@ -24,15 +24,13 @@ jobs:
       - name: Build
         id: build
         shell: bash
-        run: |
-          chmod +x build.sh
-          ./build.sh
+        run: ./build.sh
         env:
           ASEPRITE_VERSION: ${{ github.event.inputs.version }}
 
       - name: Archive
         uses: actions/upload-artifact@v4
         with:
-          name: aseprite-${{ github.event.inputs.version }}
-          path: ~/aseprite-${{ github.event.inputs.version }}
+          name: aseprite-${{ steps.build.outputs.ASEPRITE_VERSION }}
+          path: github
           if-no-files-found: error

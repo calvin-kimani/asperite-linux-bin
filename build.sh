@@ -29,6 +29,11 @@ if [ -z "$ASEPRITE_VERSION" ]; then
 fi
 echo "Building Aseprite version $ASEPRITE_VERSION"
 
+# --- export version to GitHub Actions if running in workflow ---
+if [ -n "$GITHUB_OUTPUT" ]; then
+    echo "ASEPRITE_VERSION=$ASEPRITE_VERSION" >> "$GITHUB_OUTPUT"
+fi
+
 # --- update local repo to selected tag ---
 git -C "$ASEPRITE_DIR" clean -fdx
 git -C "$ASEPRITE_DIR" submodule foreach --recursive git clean -xfd
@@ -80,3 +85,11 @@ cp -r "$BUILD_DIR/bin/aseprite" "$OUTPUT_DIR/"
 cp -r "$BUILD_DIR/bin/data" "$OUTPUT_DIR/data"
 
 echo "Aseprite $ASEPRITE_VERSION build complete at $OUTPUT_DIR"
+
+# --- copy to github directory if running in workflow ---
+if [ -n "$GITHUB_WORKSPACE" ]; then
+    GITHUB_DIR="$GITHUB_WORKSPACE/github"
+    rm -rf "$GITHUB_DIR"
+    cp -r "$OUTPUT_DIR" "$GITHUB_DIR"
+    echo "Copied to $GITHUB_DIR for artifact upload"
+fi
