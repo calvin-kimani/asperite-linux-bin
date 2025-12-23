@@ -19,7 +19,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            git curl cmake ninja-build python3 unzip libjpeg-dev libfreetype6-dev libgif-dev
+            git curl cmake ninja-build python3 unzip \
+            libjpeg-dev libfreetype6-dev libgif-dev libxcb-dev
 
       - name: Build
         id: build
