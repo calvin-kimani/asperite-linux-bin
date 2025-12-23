@@ -21,8 +21,13 @@ jobs:
           sudo apt-get install -y \
             g++ clang cmake ninja-build \
             libx11-dev libxcursor-dev libxi-dev libxrandr-dev libgl1-mesa-dev libfontconfig1-dev \
-            libturbojpeg-dev libpng-dev libgif-dev libwebp-dev libtiff5-dev libfreetype6-dev \
+            libpng-dev libgif-dev libwebp-dev libtiff5-dev libfreetype6-dev \
             git curl python3 unzip
+
+      - name: Install libjpeg-turbo
+        run: |
+          wget https://sourceforge.net/projects/libjpeg-turbo/files/2.1.3/libjpeg-turbo-official_2.1.3_amd64.deb
+          sudo dpkg -i libjpeg-turbo-official_2.1.3_amd64.deb
 
       - name: Build
         id: build

@@ -70,12 +70,20 @@ fi
 
 # --- build aseprite ---
 rm -rf "$BUILD_DIR"
+
+# Set libjpeg-turbo paths if the official package is installed
+CMAKE_EXTRA_ARGS=""
+if [ -f "/opt/libjpeg-turbo/lib64/libjpeg.a" ]; then
+    CMAKE_EXTRA_ARGS="-DLIBJPEG_TURBO_LIBRARY=/opt/libjpeg-turbo/lib64/libjpeg.a -DLIBJPEG_TURBO_INCLUDE_DIR=/opt/libjpeg-turbo/include"
+fi
+
 cmake -S "$ASEPRITE_DIR" -B "$BUILD_DIR" \
     -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
     -DLAF_BACKEND=skia \
     -DSKIA_DIR="$SKIA_DIR" \
-    -DSKIA_OUT_DIR="$SKIA_OUT_DIR"
+    -DSKIA_OUT_DIR="$SKIA_OUT_DIR" \
+    $CMAKE_EXTRA_ARGS
 
 ninja -C "$BUILD_DIR"
 
