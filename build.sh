@@ -14,14 +14,15 @@ ASEPRITE_VERSION="${ASEPRITE_VERSION:-}" # optionally set externally
 SKIA_DIR="$HOME/skia"
 SKIA_OUT_DIR="$SKIA_DIR/out/Release-x64"
 
-mkdir -p "$ASEPRITE_DIR" "$BUILD_DIR"
-
 # --- clone/update aseprite repo ---
 if [ ! -d "$ASEPRITE_DIR/.git" ]; then
+    rm -rf "$ASEPRITE_DIR"
     git clone --recursive --tags https://github.com/aseprite/aseprite.git "$ASEPRITE_DIR"
 else
     git -C "$ASEPRITE_DIR" fetch --tags
 fi
+
+mkdir -p "$BUILD_DIR"
 
 # --- get newest tag if ASEPRITE_VERSION not set ---
 if [ -z "$ASEPRITE_VERSION" ]; then
