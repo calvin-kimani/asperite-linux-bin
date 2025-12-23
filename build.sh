@@ -48,10 +48,22 @@ v = open('$ASEPRITE_DIR/src/ver/CMakeLists.txt').read()
 open('$ASEPRITE_DIR/src/ver/CMakeLists.txt', 'w').write(v.replace('1.x-dev', '${ASEPRITE_VERSION#1}'))
 EOF
 
+# --- determine Skia version ---
+if [ -f "$ASEPRITE_DIR/laf/misc/skia-tag.txt" ]; then
+    SKIA_VERSION=$(cat "$ASEPRITE_DIR/laf/misc/skia-tag.txt")
+else
+    if [[ "$ASEPRITE_VERSION" == *"beta"* ]]; then
+        SKIA_VERSION="m124-08a5439a6b"
+    else
+        SKIA_VERSION="m102-861e4743af"
+    fi
+fi
+echo "Using Skia version $SKIA_VERSION"
+
 # --- download Skia if missing ---
 if [ ! -d "$SKIA_DIR" ]; then
     mkdir -p "$SKIA_DIR"
-    curl -sfLO https://github.com/aseprite/skia/releases/download/m124/Skia-Linux-Release-x64.zip
+    curl -sfLO "https://github.com/aseprite/skia/releases/download/$SKIA_VERSION/Skia-Linux-Release-x64.zip"
     unzip -q Skia-Linux-Release-x64.zip -d "$SKIA_DIR"
     rm Skia-Linux-Release-x64.zip
 fi
